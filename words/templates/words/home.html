@@ -1,0 +1,58 @@
+{%extends 'words/base.html'%}{%block content%}
+
+<style>
+    .form-control {
+        background-color: #111;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+</style>
+<div class="text-right">
+
+    <a href="" class="btn btn-warning">POS</a>
+    <a href="" class="btn btn-danger">Translation</a>
+
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-6 offset-3">
+        <form action="" method="POST" novalidate>
+            {% csrf_token%} {% for fm in form%} {{fm.label_tag}}{{fm}} {%endfor%}
+            <br>
+            <div style="padding: 6px; display: inline;">
+
+                <input type="submit" value="Meaning" , class="btn btn-success" name="meaning">
+
+                <input type="submit" value="Synonyms" , class="btn btn-primary" name="synonyms">
+
+                <input type="submit" value="Antonyms" , class="btn btn-secondary" name="antonyms">
+
+                <input type="submit" value="Make Sentence" , class="btn btn-warning" name="make_sen">
+
+            </div>
+        </form>
+    </div>
+
+</div>
+<span>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</span> {% if request.method == "POST"%}
+<h1 class="text-left alert alert-info"><span style="text-transform: capitalize;">{{pre}}</span> {{y}}</h1>
+{%endif%}
+<div class="row">
+
+    <div class="col-sm-6">
+        {% if request.method == "POST"%}
+        <p>{{word}}</p>{%endif%}
+    </div>
+
+</div>
+{%endblock%}
