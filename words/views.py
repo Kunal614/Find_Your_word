@@ -2,7 +2,7 @@ from django.shortcuts import render , HttpResponseRedirect
 
 from nltk.corpus import wordnet
 
-from .form import Word_form
+from .form import Word_form , Sentence_form
 
 import time
 
@@ -32,7 +32,9 @@ def home(request):
 
             if 'make_sen' in request.POST:
                 y = " -> "
-                word = Make_sen(word)        
+                
+                word = Make_sen(word)  
+                print(word)      
                     
             fm = Word_form()
 
@@ -42,6 +44,12 @@ def home(request):
     else: 
         fm = Word_form()                              
         return render(request , 'words/home.html' , {'form':fm})
+
+
+def pos_trans(request):
+    fm = Sentence_form()
+    return render(request , 'words/pos_trans.html' , {'form':fm})
+    
 
 def meaning(word):
     print(word)
@@ -96,11 +104,34 @@ def Antonyms(word):
         return word    
 
 def Make_sen(word):
-    syn = wordnet.synsets(word)
-    print(syn)
-    word = syn[0].examples()
-    print(word)
-    return word   
+    pre = word
+    print(pre)
+    try:
+        syn1 = wordnet.synsets(pre)
+        print(syn1)
+        flag=0
+        index =-1
+        for syn in wordnet.synsets(pre):
+            for cnt , i in enumerate(syn.lemmas()):
+                if pre == i.name():
+                    index = cnt
+                    flag=1
+                    break
+            if flag == 1:
+                break
+
+        if index!= -1:        
+            print(index)  
+            word = (syn1[index].examples())[0] 
+            print(word)
+        else:
+            word = "Not Found :("      
+        return word   
+    except Exception as e:
+        print(e)
+        word = "Not Found :("
+        return word          
+      
 
 
 

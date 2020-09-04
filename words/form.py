@@ -11,7 +11,14 @@ class Word_form(forms.ModelForm):
         }
 
 
-
+class Sentence_form(forms.ModelForm):
+    class Meta:
+        model = Sentence
+        fields = ['sentence']
+        labels={'sentence':'Sentence'}
+        widgets={
+            'sentence':forms.TextInput(attrs={'class':"form-control" , 'placeholder':'Sentence'})
+        }
         
 
         

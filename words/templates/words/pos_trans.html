@@ -1,0 +1,6 @@
+{%extends 'words/pos_trans.html'%}{% block content%}
+
+<form action="" , method="POST">
+    {%csrf_token%} {{form.as_p}}
+</form>
+{% endblock %}

@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from words.views import home , meaning
+from words.views import home , pos_trans
 
 urlpatterns = [
     path('admin/', admin.site.urls),
      path('', home , name="Home"),
-     path('meaning/', meaning , name="Meaning"),
+     path('POS_Trans/', pos_trans , name="Pos_Trans"),
 ]
