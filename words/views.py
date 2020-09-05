@@ -6,6 +6,8 @@ from .form import Word_form , Sentence_form
 
 import time
 
+from textblob import TextBlob
+
 # Create your views here.
 def home(request):
     if request.method == 'POST':
@@ -47,9 +49,41 @@ def home(request):
 
 
 def pos_trans(request):
-    fm = Sentence_form()
-    return render(request , 'words/pos_trans.html' , {'form':fm})
     
+    if request.method == 'POST':
+        fm = Sentence_form(data = request.POST)
+        if fm.is_valid():
+            word = fm.cleaned_data['sentence']
+            pre=word
+            if 'hindi' in request.POST:
+                y =" In Hindi -> "
+                word  = translate(word)
+            if 'english' in request.POST:
+                y = " In Eng -> "
+                word = translate_eng(word)    
+            fm = Sentence_form()
+            return render(request , 'words/pos_trans.html' , {'form':fm , 'word':word , 'y':str(y) , 'pre':pre})    
+        else:
+            return HttpResponseRedirect('/')  
+    else:  
+        fm = Sentence_form()
+        return render(request , 'words/pos_trans.html' , {'form':fm})
+    
+
+def translate_eng(sen):
+    try:
+        word = TextBlob(sen)
+        word = word.translate(from_lang='hi' , to = 'en')
+    except:
+        word = "पता नहीं :("
+    return word 
+def translate(sen):
+    try:
+        word = TextBlob(sen)
+        word = word.translate(from_lang='en' , to = 'hi')
+    except:
+        word = "पता नहीं :("
+    return word        
 
 def meaning(word):
     print(word)
@@ -57,6 +91,7 @@ def meaning(word):
         syns = wordnet.synsets(str(word))
         word = syns[0].definition()
         print(syns[0].lemmas()[0].name())
+       
     except:
         word = "Not Found :("    
     

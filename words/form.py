@@ -15,9 +15,10 @@ class Sentence_form(forms.ModelForm):
     class Meta:
         model = Sentence
         fields = ['sentence']
-        labels={'sentence':'Sentence'}
-        widgets={
-            'sentence':forms.TextInput(attrs={'class':"form-control" , 'placeholder':'Sentence'})
+        labels={'sentence':'Max 300 words Sentence'}
+        # sentence= forms.CharField(widget=forms.Textarea(attrs={"rows":1, "cols":1}))
+        widgets = {
+          'sentence': forms.Textarea(attrs={'rows':8, 'cols':25}),
         }
         
 

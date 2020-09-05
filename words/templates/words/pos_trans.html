@@ -1,6 +1,52 @@
-{%extends 'words/pos_trans.html'%}{% block content%}
+{%extends 'words/base.html'%}{% block content%}
 
-<form action="" , method="POST">
-    {%csrf_token%} {{form.as_p}}
-</form>
-{% endblock %}
+<style>
+    #id_sentence {
+        background-color: #111;
+        color: aliceblue;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+</style>
+<span><br></span>
+<h3 class="text-right">
+    <a href="{%url 'Home' %}" class="btn btn-danger">HOME</a>
+</h3>
+<div class="row">
+    <div class="col-sm-4">
+        <form action="" , method="POST">
+            {%csrf_token%} {% for fm in form%} {{fm.label_tag}}<br>{{fm}} {%endfor%}
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-1">
+                    <div>
+                        <input type="submit" value="Hindi" , class="btn btn-success" name="hindi">
+
+                    </div>
+
+                </div>
+                <div class="col-sm-4 offset-2">
+
+                    <input type="submit" value="English" , class="btn btn-secondary" name="english">
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <input type="submit" value="POS" , class="btn btn-primary" name="pos">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<span>
+    <br>
+    <br>
+   
+  
+</span> {% if request.method == "POST"%}
+<h1 class="text-left alert alert-info"><span style="text-transform: capitalize; font-size: 15px;">{{pre}}</span> <span style="font-size: 15px;">{{y}}</span> <span style="text-transform: capitalize; font-size: 25px;">{%if word|length == 0%}Not Found :( {%else%}{{word}}{%endif%}</span></h1>
+{%endif%} {% endblock %}
