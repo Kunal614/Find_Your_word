@@ -4,16 +4,32 @@ from nltk.corpus import wordnet
 
 from .form import Word_form , Sentence_form
 
+import nltk 
+
+from nltk.tokenize import word_tokenize, sent_tokenize 
+
 import time
 
 from textblob import TextBlob
+
+parts_of_speech = {
+    'CC':"Coordinating Conjunction" , "CD":"Cardinal Digit","DT":"Determiner", "EX":"Existial There",
+    "FW":"Foreign Word" , "IN":"Preposition","JJ":"Adjective","JJR":"Adjective(larger)" , "JJS":"Adjective(largest)",
+    "LS":"List MArket" , "MD":"Modal","NN":"Noun" , "NNS":"Noun Plural","NNP":"Proper Noun,Singular", "NNPS":"Proper Noun Prural",
+    "PDT":"Predeterminer","POS":"Possessive Ending","PRP":"Personal Pronoun","PRP$":"Possessive Pronoun","RB":"Adverb",
+    "RBR":"Adverb , Comparative" , "RBS":"Adverb , Superlative","RP":"Particle","TO":"Infinite Maker",
+    "UH":"Interjection","VB":"Verb","VBH":"Verb Gerund","VBD":"Verb Past Tense","VBN":"Verb Past Participle",
+    "VBP":"Verb ,Present Tense not 3rd person" , "VBZ":"Verb ,Present Tense with 3rd person" , "WDT":"Wh-determiner","WP":"Wh-Pronoun",
+    "WRB":"Wh-Adverb"
+}
+stop_word=(',' ,'.', '!','?','&','#','@','`','(',')','*','+','^','%')
 
 # Create your views here.
 def home(request):
     if request.method == 'POST':
         fm = Word_form(data=request.POST)
         if fm.is_valid():
-            # inp = fm.cleaned_data['Meaning']
+            
             word = fm.cleaned_data['word']
             pre = word
             y = ""
@@ -23,20 +39,22 @@ def home(request):
                 word = meaning(word) 
             if 'synonyms' in request.POST:
                 y = "Synonyms ->"
-                word = list(Synonyms(word))
+                word = list(synonyms(word))
                 
 
             if 'antonyms' in request.POST:
                 y = "Antonyms ->"
-                word = Antonyms(word)
+                word = antonyms(word)
                 if word != "Not Found :(":
                     word = list(word)
 
             if 'make_sen' in request.POST:
                 y = " -> "
                 
-                word = Make_sen(word)  
-                print(word)      
+                word = make_sen(word)  
+                print(word)   
+
+
                     
             fm = Word_form()
 
@@ -60,27 +78,51 @@ def pos_trans(request):
                 word  = translate(word)
             if 'english' in request.POST:
                 y = " In Eng -> "
-                word = translate_eng(word)    
+                word = translate_eng(word) 
+            if 'pos' in request.POST:
+                y = " All Parts Of Speach -> "
+                word = pos(word)  
+                pre=" "
             fm = Sentence_form()
+            
             return render(request , 'words/pos_trans.html' , {'form':fm , 'word':word , 'y':str(y) , 'pre':pre})    
         else:
             return HttpResponseRedirect('/')  
     else:  
         fm = Sentence_form()
         return render(request , 'words/pos_trans.html' , {'form':fm})
+
+
+def pos(sen):
+    tokenized = sent_tokenize(sen)
+
+    for i in tokenized:
+        word_list = word_tokenize(i)
+        wordlist = [w for w in word_list if not w in stop_word] 
+        tagged = nltk.pos_tag(wordlist) 
+
+        my_word =[]
+        for i , val in tagged:
+            my_word.append((i , parts_of_speech[val]))
+
+    return my_word        
     
+    
+
 
 def translate_eng(sen):
     try:
         word = TextBlob(sen)
         word = word.translate(from_lang='hi' , to = 'en')
     except:
-        word = "पता नहीं :("
+        word = "Don't Know :("
     return word 
+
 def translate(sen):
     try:
         word = TextBlob(sen)
         word = word.translate(from_lang='en' , to = 'hi')
+        print(word)
     except:
         word = "पता नहीं :("
     return word        
@@ -97,11 +139,10 @@ def meaning(word):
     
     return word
 
-def Synonyms(word):
+def synonyms(word):
     # print(word)
     pre = word
     try:
-        # syns = wordnet.synsets(str(word))
         # print(syns)
         word = []
         for syn in wordnet.synsets(pre):
@@ -120,7 +161,7 @@ def Synonyms(word):
                 
     
 
-def Antonyms(word):
+def antonyms(word):
     pre = word
     try:
         word = []
@@ -138,7 +179,7 @@ def Antonyms(word):
         word = "Not Found :("
         return word    
 
-def Make_sen(word):
+def make_sen(word):
     pre = word
     print(pre)
     try:
@@ -157,6 +198,7 @@ def Make_sen(word):
 
         if index!= -1:        
             print(index)  
+            print(syn1[index].examples())
             word = (syn1[index].examples())[0] 
             print(word)
         else:
