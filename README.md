@@ -1,5 +1,5 @@
 # Find_Your_word
 tech stack:
-  beautifulsoup
-  flask
-  nltk
+  Machine Learning
+  Django
+  nltk (NLP)
