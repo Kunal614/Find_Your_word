@@ -3,3 +3,7 @@ tech stack:
  * Machine Learning
  * Django
  * nltk (NLP)
+ * sqlite
+ * Beautifulsoup
+ * pandas
+ 
