@@ -16,16 +16,22 @@
         }
     </style>
     <link rel="stylesheet" href="{%static 'words/css/bootstrap.css'%}">
+
 </head>
 
-<body style="background-color: lightgoldenrodyellow;">
+<body style="background-image: radial-gradient(#666, #333); ">
+
     <div class="container mt-5">
-        <h1 class="text-center">Find Your Word</h1>
+        <h1 class="text-center alert alert-info">Find Your Word</h1>
         {%block content%}{%endblock content%}
     </div>
+
+
     <script src="{% static 'words/js/jquery.js'%}"></script>
     <script src="{% static 'words/js/popper.js'%}"></script>
     <script src="{% static 'words/js/bootstrap.js'%}"></script>
+
+
 </body>
 
 </html>
