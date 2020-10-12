@@ -1,6 +1,7 @@
 from django.shortcuts import render , HttpResponseRedirect
 import nltk
 nltk.download('wordnet')
+nltk.download('punkt')
 from nltk.corpus import wordnet
 
 
