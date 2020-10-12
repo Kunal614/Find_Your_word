@@ -122,13 +122,13 @@ def translate(sen):
     try:
         word = TextBlob(sen)
         word = word.translate(from_lang='en' , to = 'hi')
-        print(word)
+        # print(word)
     except:
         word = "पता नहीं :("
     return word        
 
 def meaning(word):
-    print(word)
+    # print(word)
     try:
         syns = wordnet.synsets(str(word))
         word = syns[0].definition()
@@ -150,7 +150,7 @@ def synonyms(word):
                 word.append(i.name())
                 # print(i.name())
         word = set(word)
-        print(word)
+        # print(word)
        
         return word
         
@@ -167,7 +167,7 @@ def antonyms(word):
         word = []
         for syn in wordnet.synsets(pre):
             for i in syn.lemmas():
-                print(i.antonyms())
+                # print(i.antonyms())
                 if len(i.antonyms())!= 0 :
                     word.append(i.antonyms()[0].name())
                 # word.append(i.antonyms()[0].name())
@@ -181,7 +181,7 @@ def antonyms(word):
 
 def make_sen(word):
     pre = word
-    print(pre)
+    # print(pre)
     try:
         syn1 = wordnet.synsets(pre)
         print(syn1)
