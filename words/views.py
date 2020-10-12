@@ -1,6 +1,8 @@
 from django.shortcuts import render , HttpResponseRedirect
-
+import nltk
+nltk.download('wordnet')
 from nltk.corpus import wordnet
+
 
 from .form import Word_form , Sentence_form
 
