@@ -1,1 +1,1 @@
-web: gunicorn crud.wsgi
+web: gunicorn find_word.wsgi
