@@ -6,4 +6,5 @@ tech stack:
  * sqlite
  * Beautifulsoup
  * pandas
- 
+#  Deployed without recomodation sysytem ... it will updated soon
+ https://about-word.herokuapp.com/ 
