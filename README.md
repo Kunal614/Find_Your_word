@@ -13,5 +13,5 @@ tech stack:
  * Beautifulsoup
  * pandas
  
-#  Deployed without recomodation sysytem ... it will updated soon
+#  Deployed without recomodation sysytem ... it will be update soon
  https://about-word.herokuapp.com/ 
